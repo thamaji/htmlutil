@@ -18,7 +18,12 @@ func (selection Selection) Text(formatter Formatter) string {
 	buf := &strings.Builder{}
 
 	for _, node := range selection {
-		fmt.Fprint(buf, formatter(node))
+		text, ok := formatter(node)
+		fmt.Fprint(buf, text)
+
+		if !ok {
+			continue
+		}
 
 		for child := node.FirstChild; child != nil; child = child.NextSibling {
 			fmt.Fprint(buf, Selection([]*html.Node{child}).Text(formatter))

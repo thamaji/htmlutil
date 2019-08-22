@@ -2,12 +2,12 @@ package htmlutil
 
 import "golang.org/x/net/html"
 
-type Formatter func(*html.Node) string
+type Formatter func(*html.Node) (string, bool)
 
-func DefaultFormatter(node *html.Node) string {
+func DefaultFormatter(node *html.Node) (string, bool) {
 	if node.Type == html.TextNode {
-		return node.Data
+		return node.Data, true
 	}
 
-	return ""
+	return "", true
 }
